@@ -43,13 +43,21 @@ app.post("/members", async (req, res) => {
 
 app.post("/webhook", async (req, res) => {
   try {
-    const account = req.body[0].address;
+    const account = req.body.address[0];
     const totalNFT = await balanceOf(account);
+    console.log("In webhook account--->", totalNFT);
+
     io.emit("nftsUpdated", { userNFTs: totalNFT });
-    res.status(200).json({ status: 200, message: "Webhook is triggered!" });
-    console.log("In webhook account--->", account);
+    res.status(200).json({
+      status: 200,
+      totalNFT: totalNFT,
+      message: "Webhook is triggered!",
+    });
   } catch (error) {
     console.error("Webhook error-->>", error);
+    res
+      .status(503)
+      .json({ status: 200, message: "Something went wroing in Webhook!" });
   }
 });
 

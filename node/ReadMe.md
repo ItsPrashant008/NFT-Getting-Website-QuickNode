@@ -1,2 +1,11 @@
 use command
-ngrock http <port>
+
+    npm start
+
+    ngrok http <port>
+
+---
+
+    node destination.js
+
+    node notification.js
